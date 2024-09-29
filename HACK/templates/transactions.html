@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='transactions.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="#" class="navbar-logo">CentWise</a>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+               
+                <li><a href="{{ url_for('wallet') }}">Wallet</a></li>
+                <li><a href="{{ url_for('handle_payment') }}">Pay</a></li>
+                <li><a href="{{ url_for('transactions') }}">Transactions</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container">
+        <h1>Hi, {{ name }}!</h1>
+        <p>Below are your recent transactions:</p>
+
+        <!-- Transactions table -->
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>{{ transaction.type }}</td>
+                    <td>${{ transaction.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

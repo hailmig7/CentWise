@@ -1,0 +1,133 @@
+/* General Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Dark background */
+    color: #e0e0e0; /* Off-white text */
+}
+
+/* Navbar Styling */
+.navbar {
+    background: linear-gradient(90deg, #1a1a1a, #333); /* Gradient background */
+    padding: 1rem 2rem;
+    box-shadow: 0px 4px 10px rgba(0, 255, 255, 0.2); /* Glowing shadow */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Logo Styling */
+.navbar-brand {
+    display: inline-block;
+}
+
+.navbar-logo {
+    color: #fff;
+    font-size: 2rem; /* Increase logo size */
+    text-decoration: none;
+    text-shadow: 0 0 10px rgba(0, 180, 216, 0.8); /* Glowing effect for logo */
+    font-weight: bold;
+}
+
+/* Horizontal Navbar Links */
+.navbar-links ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Arrange navbar items horizontally */
+    gap: 20px; /* Space between items */
+}
+
+.navbar-links li {
+    display: inline-block;
+}
+
+.navbar-links a {
+    color: #e0e0e0; /* Off-white links */
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: #00b4d8; /* Light blue on hover */
+    text-shadow: 0 0 10px rgba(0, 180, 216, 0.8); /* Glow effect on hover */
+}
+
+/* Main Content Container */
+.container {
+    margin: 3rem auto;
+    width: 80%;
+    background-color: #1a1a1a; /* Dark container background */
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 180, 216, 0.4); /* Glowing shadow */
+    text-align: center;
+    animation: fadeIn 1s ease-out; /* Fade-in animation */
+}
+
+/* Fade-in animation for smooth entrance */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Table Styling */
+.transaction-table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #333; /* Dark table background */
+    color: #e0e0e0; /* Off-white text */
+    box-shadow: 0 0 15px rgba(0, 180, 216, 0.6); /* Glowing shadow effect */
+}
+
+.transaction-table th, .transaction-table td {
+    padding: 1.5rem;  /* Larger padding for a more spacious look */
+    text-align: center;
+    border-bottom: 1px solid #555;  /* Light border for rows */
+}
+
+.transaction-table th {
+    background-color: #444;  /* Darker header background */
+}
+
+.transaction-table td {
+    background-color: #1a1a1a; /* Darker row background */
+    transition: background-color 0.3s ease;
+}
+
+.transaction-table td:hover {
+    background-color: #555;  /* Hover effect for table rows */
+}
+
+/* Glowing Table Effect */
+.transaction-table::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 180, 216, 0.2);
+    filter: blur(15px);
+    z-index: -1;
+}
+
+/* Horizontal line (hr) */
+hr {
+    margin: 2rem 0;
+    border: 1px solid #555; /* Darker line */
+}

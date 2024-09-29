@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='wallet.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="#" class="navbar-logo">CentWise</a>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+               
+                <li><a href="{{ url_for('wallet') }}">Wallet</a></li>
+                <li><a href="{{ url_for('handle_payment') }}">Pay</a></li>
+                <li><a href="{{ url_for('transactions') }}">Transactions</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container">
+        <h1>Hi, {{ name }}!</h1>
+        <p>Your current wallet balance is: ${{ wallet_balance }}</p>
+
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+        <!-- Form to add money to wallet -->
+        <form action="{{ url_for('add_to_wallet') }}" method="POST">
+            <label for="wallet_deposit">How much would you like to add to your wallet?</label>
+            <input type="number" id="wallet_deposit" name="wallet_amount" placeholder="Enter amount" step="0.01" required>
+            <button type="submit" class="add-wallet-btn">Add to Wallet</button>
+        </form>
+    </div>
+</body>
+</html>

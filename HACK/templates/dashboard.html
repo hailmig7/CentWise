@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script>
+        function updateStockPrices() {
+            fetch('/update_prices')
+                .then(response => response.json())
+                .then(data => {
+                    const stockTable = document.getElementById('stock-table-body');
+                    stockTable.innerHTML = '';
+                    data.forEach(stock => {
+                        const row = `<tr>
+                            <td>${stock.name}</td>
+                            <td>$${stock.price.toFixed(3)}</td> <!-- Rounded to 3 decimal places -->
+                            <td class="${stock.profit_loss >= 0 ? 'profit' : 'loss'}">${stock.profit_loss.toFixed(2)}%</td> <!-- Rounded to 2 decimal places -->
+                        </tr>`;
+                        stockTable.innerHTML += row;
+                    });
+
+                    // Update investments after updating stock prices
+                    updateInvestmentPrices();
+                });
+        }
+
+        function updateInvestmentPrices() {
+            const investmentRows = document.querySelectorAll('.investment-row');
+            investmentRows.forEach(row => {
+                const investedAmount = parseFloat(row.querySelector('.invested-amount').innerText.replace('$', ''));
+                const profitLoss = parseFloat(row.querySelector('.profit-loss').innerText.replace('%', ''));
+                const currentPriceCell = row.querySelector('.current-price');
+
+                const currentPrice = investedAmount * (1 + profitLoss / 100);
+                currentPriceCell.innerText = `$${currentPrice.toFixed(3)}`;  
+            });
+        }
+
+        // Automatically update stock prices every 5 seconds
+        setInterval(updateStockPrices, 5000); // Update every 5 seconds
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="#" class="navbar-logo">CentWise</a>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                <li><a href="{{ url_for('wallet') }}">Wallet</a></li>
+                <li><a href="{{ url_for('handle_payment') }}">Pay</a></li>
+                <li><a href="{{ url_for('transactions') }}">Transactions</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container">
+        <h1>Welcome, {{ name }}!</h1>
+        <p>This is your dashboard. Below are the top moving stocks:</p>
+
+        <!-- Demo stocks table -->
+        <table class="stock-table">
+            <thead>
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Current Price</th>
+                    <th>1-Day Profit/Loss (%)</th>
+                </tr>
+            </thead>
+            <tbody id="stock-table-body">
+                {% for stock in demo_stocks %}
+                <tr>
+                    <td>{{ stock.name }}</td>
+                    <td>${{ stock.price | round(3) }}</td> <!-- Rounded to 3 decimal places -->
+                    <td class="{% if stock.profit_loss >= 0 %}profit{% else %}loss{% endif %}">{{ stock.profit_loss | round(2) }}%</td> <!-- Rounded to 2 decimal places -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Your Investments</h2>
+        <table class="investment-table">
+            <thead>
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Invested Amount</th>
+                    <th>Profit/Loss</th>
+                    <th>Current Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for investment in investments %}
+                <tr class="investment-row">
+                    <td>{{ investment.stock_name }}</td>
+                    <td class="invested-amount">${{ investment.invested_amount | round(3) }}</td> <!-- Rounded to 3 decimal places -->
+                    <td class="profit-loss {% if investment.profit_loss >= 0 %}profit{% else %}loss{% endif %}">{{ investment.profit_loss | round(2) }}%</td> <!-- Rounded to 2 decimal places -->
+                    <td class="current-price">${{ (investment.invested_amount * (1 + (investment.profit_loss / 100))) | round(3) }}</td> <!-- Rounded to 3 decimal places -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+</body>
+</html>

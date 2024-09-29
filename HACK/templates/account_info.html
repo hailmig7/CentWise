@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay and Deposit</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='account_info.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="#" class="navbar-logo">CentWise</a>
+        </div>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                
+                <li><a href="{{ url_for('wallet') }}">Wallet</a></li>
+                <li><a href="{{ url_for('handle_payment') }}">Pay</a></li> <!-- Corrected 'handle_payment' reference -->
+                <li><a href="{{ url_for('transactions') }}">Transactions</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container">
+        <h1>Hi, {{ name }}!</h1>
+        <p>Your current account balance is: ${{ account_balance }}</p>
+
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+        <!-- Payment form -->
+        <form action="{{ url_for('handle_payment') }}" method="POST">
+            <label for="payment">How much would you like to pay?</label>
+            <input type="number" id="payment" name="payment_amount" placeholder="Enter amount" step="0.01" required>
+            <button type="submit" class="pay-btn">Pay</button>
+        </form>
+        
+        <hr>
+        
+        <!-- Deposit form -->
+        <form action="{{ url_for('handle_payment') }}" method="POST">
+            <label for="deposit">How much would you like to add to your account?</label>
+            <input type="number" id="deposit" name="deposit_amount" placeholder="Enter amount" step="0.01" required>
+            <button type="submit" class="deposit-btn">Deposit</button>
+        </form>
+    </div>
+</body>
+</html>
